@@ -25,6 +25,6 @@
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "request": "^2.88.0",
-    "sidequest": "0.0.1-nightbuild-5"
+    "sidequest": "0.0.1-nightbuild-7"
   }
 }

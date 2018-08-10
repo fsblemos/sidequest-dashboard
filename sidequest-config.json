@@ -1,0 +1,10 @@
+{
+    "totalSchedulers": 2,
+    "tasks": [
+        {
+            "name": "Hello!",
+            "path": "./test/tasks/hello.js",
+            "cron": "* * * * * *"
+        }
+    ]
+}

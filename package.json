@@ -1,0 +1,23 @@
+{
+  "name": "sidequest-dashboard",
+  "version": "0.0.1-nightbuild-1",
+  "description": "Sidequest Dashboard",
+  "main": "src/sidequest-dashboard.js",
+  "scripts": {
+    "test": "nyc --reporter=html --reporter=text mocha --recursive --timeout 5000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sidequestjs/sidequest-dashboard.git"
+  },
+  "keywords": [
+    "sidequest",
+    "dashboard"
+  ],
+  "author": "Lucas Merencia <lucas@merencia.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sidequestjs/sidequest-dashboard/issues"
+  },
+  "homepage": "https://github.com/sidequestjs/sidequest-dashboard#readme"
+}

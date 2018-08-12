@@ -32,6 +32,42 @@ describe('Sidequest Dashboard', () => {
         sidequest.initialize();
     });
 
+    it('should count worker execution', (done) => {
+        sidequest.use({
+            initialize: (masterWorker) => {
+                let counter = 0;
+                masterWorker.on('task-done', () => {
+                    counter++;
+                    if(counter == 3){
+                        request('http://localhost:5011/data', function (error, response) {
+                            let body = JSON.parse(response.body);
+                            assert.equal(body.workersExecutedCount, 3);
+                            done();
+                        });
+                    }
+                });
+            },
+            terminate: () => {}
+        });
+        sidequest.initialize();
+    });
+
+    it('should return current workers', (done) => {
+        sidequest.use({
+            initialize: (masterWorker) => {
+                masterWorker.on('task-started', () => {
+                        request('http://localhost:5011/data', function (error, response) {
+                        let body = JSON.parse(response.body);
+                        assert.isAtLeast(body.workers.length, 1);
+                        done();
+                    });
+                });
+            },
+            terminate: () => {}
+        });
+        sidequest.initialize();
+    });
+
     it('return 404', (done) => {
         sidequest.initialize();
         request('http://localhost:5011/', function (error, response) {

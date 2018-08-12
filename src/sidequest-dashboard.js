@@ -6,6 +6,12 @@ module.exports = (() => {
     let serverHost = 'localhost';
 
     function initialize(masterWorker) {
+        let workersExecutedCount = 0;
+
+        masterWorker.on('task-done', (task) =>{
+            workersExecutedCount++;
+        });
+
         server = http.createServer((req, res) => {
             if(req.url == '/data'){
                 res.statusCode = 200;
@@ -13,7 +19,8 @@ module.exports = (() => {
                 res.end(JSON.stringify({
                     schedulers: getSchedulers(masterWorker.schedulers()),
                     startedAt: masterWorker.startedAt(),
-                    workers: getWorkers(masterWorker.currentWorkers())
+                    workers: getWorkers(masterWorker.currentWorkers()),
+                    workersExecutedCount: workersExecutedCount
                 }));
             } else {
                 res.statusCode = 404;

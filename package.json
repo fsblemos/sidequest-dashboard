@@ -4,7 +4,7 @@
   "description": "Sidequest Dashboard",
   "main": "src/sidequest-dashboard.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha --recursive --timeout 5000"
+    "test": "nyc --reporter=html --reporter=text mocha --recursive --timeout 10000"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,6 @@
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "request": "^2.88.0",
-    "sidequest": "0.0.1-nightbuild-7"
+    "sidequest": "0.0.1-nightbuild-8"
   }
 }

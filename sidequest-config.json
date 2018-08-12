@@ -2,8 +2,8 @@
     "totalSchedulers": 2,
     "tasks": [
         {
-            "name": "Hello!",
-            "path": "./test/tasks/hello.js",
+            "name": "Lazy Task!",
+            "path": "./test/tasks/lazy-task.js",
             "cron": "* * * * * *"
         }
     ]

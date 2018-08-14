@@ -16,6 +16,7 @@ module.exports = (() => {
             if(req.url == '/data'){
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Access-Control-Allow-Origin', '*');
                 res.end(JSON.stringify({
                     schedulers: getSchedulers(masterWorker.schedulers()),
                     startedAt: masterWorker.startedAt(),

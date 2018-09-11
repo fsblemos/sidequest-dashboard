@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard">
-    Olar
+    <h1>Hello</h1>
   </div>
 </template>
 

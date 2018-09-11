@@ -23,4 +23,11 @@ gulp.task('webpack', () => {
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('up', ['copy', 'webpack', 'server']);
+gulp.task('up', ['copy', 'webpack', 'server', 'watch']);
+
+gulp.task('watch', () => {
+    return gulp.watch(['src/web/**/*.js', 
+    'src/web/**/*.vue', 
+    'src/web/**/*.html', 
+    'src/web/**/*.css'], ['copy', 'webpack']);
+})

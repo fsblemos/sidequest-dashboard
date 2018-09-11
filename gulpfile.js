@@ -1,9 +1,11 @@
 'use strict';
 
-const gulp = require('gulp')
-const webpack = require('gulp-webpack');
+const gulp = require('gulp');
+const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
 const sidequest = require('sidequest');
 const sidequestDash = require('./src/sidequest-dashboard');
+const webpackConfig = require('./webpack.config.js');
 
 gulp.task('server', () => {
     sidequest.use(sidequestDash.port(2000));
@@ -16,7 +18,9 @@ gulp.task('copy', ()=>{
 });
 
 gulp.task('webpack', () => {
-    return gulp.src('.')
-    .pipe(webpack(require('./webpack.config.js')))
-    .pipe(gulp.dest('.dist/'));
+    return gulp.src('./src/web/main.js')
+    .pipe(webpackStream(webpackConfig), webpack)
+    .pipe(gulp.dest('./dist/'));
 });
+
+gulp.task('up', ['copy', 'webpack', 'server']);

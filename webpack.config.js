@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJs = require('uglifyjs-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader')
 
 const cssimport = require('postcss-import');
 const cssnext = require('postcss-cssnext');
@@ -22,6 +22,11 @@ module.exports = {
         filename: "[name].min.js"
     },
     devtool: 'source-map',
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 9000
+    },
     module: {
         rules: [
             {
@@ -34,7 +39,6 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/
             },
-            { test: /^src\/web\/index.html$/, loader: "file" },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
@@ -61,14 +65,14 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({ template: './src/web/index.html' })
+        new VueLoaderPlugin()
     ].concat((isProduction) ? [
         new UglifyJs(),
         new webpack.DefinePlugin({
             'process.env': {
-              NODE_ENV: '"production"'
+                NODE_ENV: '"production"'
             }
-          })
+        })
     ] : []),
     resolve: {
         extensions: ['*', '.js', '.vue', '.json'],

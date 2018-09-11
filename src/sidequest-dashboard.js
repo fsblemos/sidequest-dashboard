@@ -1,41 +1,69 @@
-const http = require('http');
+
+const Hapi = require('hapi');
+const Inert = require('inert');
+const path = require('path');
+
+
 
 module.exports = (() => {
-    let server;
     let serverPort = 3000;
     let serverHost = 'localhost';
+    
+    
+    const startServer = async (masterWorker) => {
 
-    function initialize(masterWorker) {
         let workersExecutedCount = 0;
-
+        
         masterWorker.on('task-done', (task) =>{
             workersExecutedCount++;
         });
 
-        server = http.createServer((req, res) => {
-            if(req.url == '/data'){
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({
+        const server = Hapi.server({
+            host: serverHost,
+            port: serverPort,
+            routes: {
+                files: {
+                    relativeTo: path.resolve('./dist')
+                }
+            }
+        });
+
+        await server.register(Inert);
+        server.route({
+            method: 'GET',
+            path: '/{param*}',
+            handler: {
+                directory: {
+                    path: '.',
+                    redirectToSlash: true,
+                    index: true,
+                }
+            }
+        });
+        
+        server.route({
+            method:'GET',
+            path:'/data',
+            handler: function(req,h) {
+                return {
                     schedulers: getSchedulers(masterWorker.schedulers()),
                     startedAt: masterWorker.startedAt(),
                     workers: getWorkers(masterWorker.currentWorkers()),
                     workersExecutedCount: workersExecutedCount
-                }));
-            } else {
-                res.statusCode = 404;
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({
-                    message: "not found"
-                }));
+                }
             }
-          });
-          
-          server.listen(serverPort, serverHost, () => {
-            console.log(`Server running at http://${serverHost}:${serverPort}/`);
-          });
+        });
+        
+        await server.start();
+        
+        console.log('Server running at:', server.info.uri);
+    };
+    
+    
+    function initialize(masterWorker) {
+        startServer(masterWorker)
     }
-
+    
     function getSchedulers(schedulers) {
         return schedulers.map(scheduler => { 
             return {
@@ -45,7 +73,7 @@ module.exports = (() => {
             }
         });
     }
-
+    
     function getWorkers(workers) {
         return workers.map(worker => { 
             return {
@@ -54,21 +82,21 @@ module.exports = (() => {
             }
         });
     }
-
+    
     function terminate(masterWorker) {
         server.close();
     }
-
+    
     function port(portNumber){
         serverPort = portNumber;
         return this;
     }
-
+    
     function host(hostname){
         serverHost = hostname;
         return this;
     }
-
+    
     return {
         initialize: initialize,
         terminate: terminate,

@@ -5,7 +5,7 @@
   "main": "src/sidequest-dashboard.js",
   "scripts": {
     "test": "nyc --reporter=html --reporter=text mocha --recursive --timeout 10000",
-    "start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server --mode development"
   },
   "repository": {
     "type": "git",

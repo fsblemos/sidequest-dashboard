@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const UglifyJs = require('uglifyjs-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
@@ -12,7 +13,7 @@ const path = require('path')
 const ENV = (process.env.NODE_ENV) ? process.env.NODE_ENV : 'development'
 const isProduction = (ENV === 'production')
 
-module.exports = {
+const config = {
   entry: {
     app: './src/web/main.js'
   },
@@ -65,15 +66,11 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin()
-  ].concat((isProduction) ? [
-    new UglifyJs(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      template: './src/web/index.html'
     })
-  ] : []),
+  ],
   resolve: {
     extensions: ['*', '.js', '.vue', '.json'],
     alias: {
@@ -81,3 +78,14 @@ module.exports = {
     }
   }
 }
+
+if (isProduction) {
+  config.plugins.push(new UglifyJs())
+  config.plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: '"production"'
+    }
+  }))
+}
+
+module.exports = config

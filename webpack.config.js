@@ -45,6 +45,14 @@ const config = {
         use: ['style-loader', 'css-loader']
       },
       {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader'
+          }
+        ]
+      },
+      {
         test: /\.css$/,
         exclude: /node_modules/,
         use: [

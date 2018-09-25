@@ -15,7 +15,7 @@ const isProduction = (ENV === 'production')
 
 const config = {
   entry: {
-    app: './src/web/main.js'
+    app: './src/app/main.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -68,7 +68,7 @@ const config = {
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      template: './src/web/index.html'
+      template: './src/app/index.html'
     })
   ],
   resolve: {

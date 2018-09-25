@@ -13,12 +13,12 @@ gulp.task('server', () => {
 })
 
 gulp.task('copy', () => {
-  return gulp.src('./src/web/index.html')
+  return gulp.src('./src/app/index.html')
     .pipe(gulp.dest('./dist'))
 })
 
 gulp.task('webpack', () => {
-  return gulp.src('./src/web/main.js')
+  return gulp.src('./src/app/main.js')
     .pipe(webpackStream(webpackConfig), webpack)
     .pipe(gulp.dest('./dist/'))
 })
@@ -26,8 +26,8 @@ gulp.task('webpack', () => {
 gulp.task('up', ['copy', 'webpack', 'server', 'watch'])
 
 gulp.task('watch', () => {
-  return gulp.watch(['src/web/**/*.js',
-    'src/web/**/*.vue',
-    'src/web/**/*.html',
-    'src/web/**/*.css'], ['copy', 'webpack'])
+  return gulp.watch(['src/app/**/*.js',
+    'src/app/**/*.vue',
+    'src/app/**/*.html',
+    'src/app/**/*.css'], ['copy', 'webpack'])
 })
